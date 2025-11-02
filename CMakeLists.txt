@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.13)
 project(sflog C)
 set(SFLOG_SOURCES
-    src/sflog.c
+    sflog/sflog.c
 )
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/)
 if(UNIX)
@@ -25,13 +25,15 @@ option(SFLOG_BUILD_SHARED "Build sflog as a shared library" ON)
 option(SFLOG_BUILD_STATIC "Build sflog as a static library" ON)
 # shared
 if(SFLOG_BUILD_SHARED)
-    add_library(${PROJECT_NAME} SHARED ${SFLOG_SOURCES})
-    set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME sflog)
+    set(SHARED_NAME ${PROJECT_NAME}_shared)
+    add_library(${SHARED_NAME} SHARED ${SFLOG_SOURCES})
+    set_target_properties(${SHARED_NAME} PROPERTIES OUTPUT_NAME ${PROJECT_NAME})
 endif()
 # static
 if(SFLOG_BUILD_STATIC)
-    add_library(${PROJECT_NAME} STATIC ${SFLOG_SOURCES})
-    set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME sflog)
+    set(STATIC_NAME ${PROJECT_NAME}_static)
+    add_library(${STATIC_NAME} STATIC ${SFLOG_SOURCES})
+    set_target_properties(${STATIC_NAME} PROPERTIES OUTPUT_NAME ${PROJECT_NAME})
 endif()
 install(TARGETS sflog_shared sflog_static
     ARCHIVE DESTINATION lib

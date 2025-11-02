@@ -22,6 +22,11 @@ last update: xy.xy.xxyy
 -----[ CONTRIBUTORS ]-----
     * Comical
 *****[ SpargatFramework ]*****/
+#ifdef ANDROID
+    #include <android/log.h>
+#elif defined(WINDOWS)
+    #include <windows.h>
+#endif
 #include "sflog.h"
 static logLevel currentLogLevel = debug;
 void set_level(logLevel level) {
@@ -59,7 +64,7 @@ void raw_print(const char *msg) {
         HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
         WriteFile(h, msg, (DWORD)strlen(msg), &written, NULL);
     #else
-        size_t len = 0;
+        unsigned long len = 0;
         while (msg[len] != '\0') len++;
         asm volatile (
             "mov $1, %%rax\n\t"

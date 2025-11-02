@@ -22,11 +22,6 @@ last update: xy.xy.xxyy
 *****[ SpargatFramework ]*****/
 #ifndef OS_LOG_LOG_H
 #define OS_LOG_LOG_H
-#ifdef ANDROID
-    #include <android/log.h>
-#else defined(WINDOWS)
-    #include <windows.h>
-#endif
 #ifdef __cplusplus
 extern "C" {
 #endif
