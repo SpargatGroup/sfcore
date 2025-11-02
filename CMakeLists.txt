@@ -1,0 +1,41 @@
+cmake_minimum_required(VERSION 3.13)
+project(sflog C)
+set(SFLOG_SOURCES
+    src/sflog.c
+)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/)
+if(UNIX)
+    if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
+        add_definitions(-DLINUX)
+    elseif(APPLE)
+        if(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
+            add_definitions(-DOSX)
+        elseif(CMAKE_SYSTEM_NAME STREQUAL "iOS")
+            add_definitions(-DIOS)
+        endif()
+    else()
+        add_definitions(-DANDROID)
+    endif()
+elseif(WIN32)
+    add_definitions(-DWINDOWS)
+else()
+    message(FATAL_ERROR "Unsupported platform: ${CMAKE_SYSTEM_NAME}")
+endif()
+option(SFLOG_BUILD_SHARED "Build sflog as a shared library" ON)
+option(SFLOG_BUILD_STATIC "Build sflog as a static library" ON)
+# shared
+if(SFLOG_BUILD_SHARED)
+    add_library(${PROJECT_NAME} SHARED ${SFLOG_SOURCES})
+    set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME sflog)
+endif()
+# static
+if(SFLOG_BUILD_STATIC)
+    add_library(${PROJECT_NAME} STATIC ${SFLOG_SOURCES})
+    set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME sflog)
+endif()
+install(TARGETS sflog_shared sflog_static
+    ARCHIVE DESTINATION lib
+    LIBRARY DESTINATION lib
+    RUNTIME DESTINATION bin
+)
+install(DIRECTORY include/ DESTINATION include)
