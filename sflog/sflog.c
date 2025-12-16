@@ -2,10 +2,10 @@
 -----[ BASIC ]-----
 author: Comical
 company: Spargat
-file: Core/log/log.c
+file: sflog/sflog.c
 language: C
 description:
-    Native initialization for Android Application
+    Log function of SpargatFramework
 -----[ DATES ]-----
 created on: xy.xy.xxyy
 last update: xy.xy.xxyy
@@ -22,6 +22,9 @@ last update: xy.xy.xxyy
 -----[ CONTRIBUTORS ]-----
     * Comical
 *****[ SpargatFramework ]*****/
+#include "../sfbase/sfbase.h"
+#include "../sfmem/sfmem.h"
+#include "../sfstr/sfstr.h"
 #ifdef ANDROID
     #include <android/log.h>
 #elif defined(WINDOWS)
@@ -58,11 +61,13 @@ const char* level_to_string(logLevel level) {
         }
     }
 #endif
-void raw_print(const char *msg) {
+void raw_print(const char* msg) {
     #ifdef WINDOWS
         DWORD written;
         HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
-        WriteFile(h, msg, (DWORD)strlen(msg), &written, NULL);
+        if (h == INVALID_HANDLE_VALUE) return;
+        if (!msg) return;
+        WriteFile(h, msg, (DWORD)sf_strlen(msg), &written, nul);
     #else
         unsigned long len = 0;
         while (msg[len] != '\0') len++;
@@ -78,15 +83,25 @@ void raw_print(const char *msg) {
         );
     #endif
 }
-void sflog(logLevel level, const char *msg) {
+void log_add(logNode **head, logLevel level, const char* tag, const char* msg) {
+    logNode *n = sf_malloc(sizeof(logNode));
+    n->level = level;
+    n->tag = sf_strdup(tag);
+    n->msg = sf_strdup(msg);
+    n->next = *head;
+    *head = n;
+}
+void sflog(logLevel level, const char* tag, const char* msg) {
     if (level < currentLogLevel)
         return;
     #ifdef ANDROID
-        __android_log_write(android_log_level(level), "SFLog", msg);
+        __android_log_write(android_log_level(level), tag, msg);
+    #else
+        raw_print("[");
+        raw_print(level_to_string(level));
+        raw_print("] ");
+        raw_print(msg);
+        raw_print("\n");
     #endif
-    raw_print("[");
-    raw_print(level_to_string(level));
-    raw_print("] ");
-    raw_print(msg);
-    raw_print("\n");
+    log_add(&logList, level, tag, msg);
 }

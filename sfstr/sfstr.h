@@ -2,26 +2,30 @@
 -----[ BASIC ]-----
 author: Comical
 company: Spargat
-file: sfcore.h
-language: Header
+file: sfstr/sfstr.h
+language: H
 description:
-    Core Header function of SpargatFramework
+    String function of SpargatFramework
 -----[ DATES ]-----
 created on: xy.xy.xxyy
 last update: xy.xy.xxyy
 -----[ CHANGES ]-----
     * xy.xy.xxyy: Initialization
 -----[ References ]-----
-    * log(LOG_debug, "Text");
-    * log(LOG_ERROR, "Text");
-    * log(LOG_WARNING, "Text");
-    * log(LOG_SUCCESS, "Text");
-    * log(LOG_INFO, "Text");
+    * sf_strlen(s);
+    * sf_strdup(char);
 -----[ CONTRIBUTORS ]-----
     * Comical
 *****[ SpargatFramework ]*****/
-#ifndef SF_CORE_H
-#define SF_CORE_H
-#include "sfstr/sfstr.h"
-#include "sflog/sflog.h"
+#ifndef SF_STR_STR_H
+#define SF_STR_STR_H
+#include "../sfbase/sfbase.h"
+#ifdef __cplusplus
+extern "C" {
+#endif
+stpe sf_strlen(const char *s);
+char *sf_strdup(const char *s);
+#ifdef __cplusplus
+}
+#endif
 #endif

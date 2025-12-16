@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.13)
 project(sflog C)
 set(SFLOG_SOURCES
+    sfstr/sfstr.c
+    sfmem/sfmem.c
     sflog/sflog.c
 )
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/)
