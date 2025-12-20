@@ -17,16 +17,18 @@ last update: xy.xy.xxyy
 -----[ CONTRIBUTORS ]-----
     * Comical
 *****[ SpargatFramework ]*****/
+#include "../sfdef/sfdef.h"
 #include "sfmem.h"
-void *sf_memcpy(void *dest, const void *src, stpe n) {
+void *sf_memcpy(void *dest, const void *src, uint32_64 n) {
     unsigned char *d = (unsigned char *)dest;
     const unsigned char *s = (const unsigned char *)src;
-    for (stpe i = 0; i < n; i++) {
+    for (uint32_64 i = 0; i < n; i++) {
         d[i] = s[i];
     }
     return dest;
 }
-void *sf_malloc(stpe size) {
+static uint32_64 heap_index = 0;
+void *sf_malloc(uint32_64 size) {
     if (heap_index + size > HEAP_SIZE) return nul;
     void *p = &heap[heap_index];
     heap_index += size;

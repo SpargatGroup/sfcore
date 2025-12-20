@@ -32,6 +32,7 @@ last update: xy.xy.xxyy
 #endif
 #include "sflog.h"
 static logLevel currentLogLevel = debug;
+logNode *logList = nul;
 void set_level(logLevel level) {
     currentLogLevel = level;
 }

@@ -24,6 +24,7 @@ last update: xy.xy.xxyy
 *****[ SpargatFramework ]*****/
 #ifndef SF_LOG_LOG_H
 #define SF_LOG_LOG_H
+#include "../sfdef/sfdef.h"
 #include "../sfstr/sfstr.h"
 #ifdef __cplusplus
 extern "C" {
@@ -43,7 +44,7 @@ typedef struct logNode {
     const char* msg;
     struct logNode *next;
 } logNode;
-logNode *logList = nul;
+extern logNode *logList;
 void set_level(logLevel level);
 const char* level_to_string(logLevel level);
 void log_add(logNode **head, logLevel level, const char* tag, const char* msg);

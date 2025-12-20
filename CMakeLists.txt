@@ -1,9 +1,8 @@
 cmake_minimum_required(VERSION 3.13)
 project(sflog C)
-set(SFLOG_SOURCES
+set(SF_SOURCES
     sfstr/sfstr.c
     sfmem/sfmem.c
-    sflog/sflog.c
 )
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/)
 if(UNIX)
@@ -25,21 +24,51 @@ elseif(WIN32)
 else()
     message(FATAL_ERROR "Unsupported platform: ${CMAKE_SYSTEM_NAME}")
 endif()
-option(SFLOG_BUILD_SHARED "Build sflog as a shared library" ON)
-option(SFLOG_BUILD_STATIC "Build sflog as a static library" ON)
-# shared
+option(SFALL_BUILD_SHARED "Build sfall as a shared library" ON)
+option(SFALL_BUILD_STATIC "Build sfall as a static library" ON)
+option(SFLOG_BUILD_SHARED "Build sflog as a shared library" OFF)
+option(SFLOG_BUILD_STATIC "Build sflog as a static library" OFF)
+option(SFMATH_BUILD_SHARED "Build sfmath as a shared library" OFF)
+option(SFMATH_BUILD_STATIC "Build sfmath as a static library" OFF)
+if(SFALL_BUILD_STATIC)
+    set(SFLOG_BUILD_STATIC ON CACHE BOOL "Force static build" FORCE)
+    set(SFMATH_BUILD_STATIC ON CACHE BOOL "Force static build" FORCE)
+endif()
+if(SFALL_BUILD_SHARED)
+    set(SFLOG_BUILD_SHARED ON CACHE BOOL "Force shared build" FORCE)
+    set(SFMATH_BUILD_SHARED ON CACHE BOOL "Force shared build" FORCE)
+endif()
+#shared and static
+if(SFLOG_BUILD_STATIC OR SFLOG_BUILD_SHARED)
+    list(APPEND SF_SOURCES sflog/sflog.c)
+endif()
 if(SFLOG_BUILD_SHARED)
     set(SHARED_NAME ${PROJECT_NAME}_shared)
     add_library(${SHARED_NAME} SHARED ${SFLOG_SOURCES})
     set_target_properties(${SHARED_NAME} PROPERTIES OUTPUT_NAME ${PROJECT_NAME})
 endif()
-# static
 if(SFLOG_BUILD_STATIC)
     set(STATIC_NAME ${PROJECT_NAME}_static)
     add_library(${STATIC_NAME} STATIC ${SFLOG_SOURCES})
     set_target_properties(${STATIC_NAME} PROPERTIES OUTPUT_NAME ${PROJECT_NAME})
 endif()
-install(TARGETS sflog_shared sflog_static
+#shared and static
+if(SFMATH_BUILD_STATIC OR SFMATH_BUILD_SHARED)
+    list(REMOVE_ITEM SF_SOURCES sflog/sflog.c)
+    list(APPEND SF_SOURCES sfmath/sfmath.c)
+endif()
+if(SFMATH_BUILD_SHARED)
+    set(SHARED_NAME ${PROJECT_NAME}_shared)
+    add_library(${SHARED_NAME} SHARED ${SFLOG_SOURCES})
+    set_target_properties(${SHARED_NAME} PROPERTIES OUTPUT_NAME ${PROJECT_NAME})
+endif()
+if(SFMATH_BUILD_STATIC)
+    set(STATIC_NAME ${PROJECT_NAME}_static)
+    add_library(${STATIC_NAME} STATIC ${SFLOG_SOURCES})
+    set_target_properties(${STATIC_NAME} PROPERTIES OUTPUT_NAME ${PROJECT_NAME})
+endif()
+#install
+install(TARGETS sflog_shared sflog_static sfmath_shared sfmath_static
     ARCHIVE DESTINATION lib
     LIBRARY DESTINATION lib
     RUNTIME DESTINATION bin

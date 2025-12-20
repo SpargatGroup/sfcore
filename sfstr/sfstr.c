@@ -18,10 +18,11 @@ last update: xy.xy.xxyy
     * Comical
 *****[ SpargatFramework ]*****/
 #include "../sfmem/sfmem.h"
+#include "../sfdef/sfdef.h"
 #include "sfstr.h"
-stpe sf_strlen(const char *s) {
+uint32_64 sf_strlen(const char *s) {
     if (!s) return 0;
-    stpe len = 0;
+    uint32_64 len = 0;
     while (s[len] != '\0') {
         len++;
     }
@@ -29,7 +30,7 @@ stpe sf_strlen(const char *s) {
 }
 char *sf_strdup(const char *s) {
     if (!s) return nul;
-    stpe len = sf_strlen(s) + 1;
+    uint32_64 len = sf_strlen(s) + 1;
     char *p = sf_malloc(len);
     if (p) sf_memcpy(p, s, len);
     return p;

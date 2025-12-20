@@ -19,18 +19,12 @@ last update: xy.xy.xxyy
         std::this_thread::sleep_for(std::chrono::seconds(2));
         std::cout << "Task 1 finished\n";
     });
-    * unit a {
-        sflog(debug, "Text");
-        return (Unit){};
-    };
-    * unit b = a;
-    * nul;
-    * stpe; // size type
 -----[ CONTRIBUTORS ]-----
     * Comical
 *****[ SpargatFramework ]*****/
 #ifndef SF_MEM_MEM_H
 #define SF_MEM_MEM_H
+#include "../sfdef/sfdef.h"
 #ifdef __cplusplus
 #include <thread>
 #include <vector>
@@ -41,14 +35,10 @@ void launch(Func&& f) {
 }
 extern "C" {
 #endif
-#define nul 0
-typedef unsigned long stpe;
-typedef struct {} unit;
-void *sf_memcpy(void *dest, const void *src, stpe n);
+void *sf_memcpy(void *dest, const void *src, uint32_64 n);
 #define HEAP_SIZE 1024*1024
 static unsigned char heap[HEAP_SIZE];
-static stpe heap_index = 0;
-void *sf_malloc(stpe size);
+void *sf_malloc(uint32_64 size);
 #ifdef __cplusplus
 }
 #endif
