@@ -12,17 +12,17 @@ last update: xy.xy.xxyy
 -----[ CHANGES ]-----
     * xy.xy.xxyy: Initialization
 -----[ References ]-----
-    * log(debug, "Text");
-    * log(info, "Text");
-    * log(success, "Text");
-    * log(warn, "Text");
-    * log(warning, "Text");
-    * log(error, "Text");
-    * lag(critical, "Text");
+    * raw_print("Text");
+    * sflog(debug, "Text");
+    * sflog(info, "Text");
+    * sflog(success, "Text");
+    * sflog(warn, "Text");
+    * sflog(warning, "Text");
+    * sflog(error, "Text");
+    * sflag(critical, "Text");
 -----[ CONTRIBUTORS ]-----
     * Comical
 *****[ SpargatFramework ]*****/
-#include "../sfbase/sfbase.h"
 #include "../sfmem/sfmem.h"
 #include "../sfstr/sfstr.h"
 #ifdef ANDROID
@@ -68,7 +68,7 @@ void raw_print(const char* msg) {
         if (h == INVALID_HANDLE_VALUE) return;
         if (!msg) return;
         WriteFile(h, msg, (DWORD)sf_strlen(msg), &written, nul);
-    #else
+    #elif defined(LINUX) || defined(ANDROID)
         unsigned long len = 0;
         while (msg[len] != '\0') len++;
         asm volatile (
@@ -81,6 +81,8 @@ void raw_print(const char* msg) {
             : "r"(msg), "r"(len)
             : "%rax", "%rdi", "%rsi", "%rdx"
         );
+    #elif defined(AMUI)
+        // in work
     #endif
 }
 void log_add(logNode **head, logLevel level, const char* tag, const char* msg) {

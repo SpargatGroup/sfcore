@@ -17,7 +17,6 @@ last update: xy.xy.xxyy
 -----[ CONTRIBUTORS ]-----
     * Comical
 *****[ SpargatFramework ]*****/
-#include "../sfbase/sfbase.h"
 #include "../sfmem/sfmem.h"
 #include "sfstr.h"
 stpe sf_strlen(const char *s) {

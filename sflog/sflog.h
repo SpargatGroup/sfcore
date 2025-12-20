@@ -12,17 +12,18 @@ last update: xy.xy.xxyy
 -----[ CHANGES ]-----
     * xy.xy.xxyy: Initialization
 -----[ References ]-----
-    * log(LOG_debug, "Text");
-    * log(LOG_ERROR, "Text");
-    * log(LOG_WARNING, "Text");
-    * log(LOG_SUCCESS, "Text");
-    * log(LOG_INFO, "Text");
------[ CONTRIBUTORS ]-----
+    * raw_print("Text");
+    * sflog(debug, "Text");
+    * sflog(info, "Text");
+    * sflog(success, "Text");
+    * sflog(warn, "Text");
+    * sflog(warning, "Text");
+    * sflog(error, "Text");
+    * sflag(critical, "Text");
     * Comical
 *****[ SpargatFramework ]*****/
 #ifndef SF_LOG_LOG_H
 #define SF_LOG_LOG_H
-#include "../sfbase/sfbase.h"
 #include "../sfstr/sfstr.h"
 #ifdef __cplusplus
 extern "C" {

@@ -17,7 +17,6 @@ last update: xy.xy.xxyy
 -----[ CONTRIBUTORS ]-----
     * Comical
 *****[ SpargatFramework ]*****/
-#include "../sfbase/sfbase.h"
 #include "sfmem.h"
 void *sf_memcpy(void *dest, const void *src, stpe n) {
     unsigned char *d = (unsigned char *)dest;

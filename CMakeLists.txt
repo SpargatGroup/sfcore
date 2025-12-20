@@ -18,6 +18,8 @@ if(UNIX)
     else()
         add_definitions(-DANDROID)
     endif()
+elseif(AMUI) # for this to work, you need amui in the same folder as core and you need to add -DCMAKE_TOOLCHAIN_FILE=/../amui/cmake/amui.cmake when configuring
+    #add_definitions(-DAMUI) # not needed
 elseif(WIN32)
     add_definitions(-DWINDOWS)
 else()

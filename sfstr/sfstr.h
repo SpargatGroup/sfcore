@@ -19,7 +19,6 @@ last update: xy.xy.xxyy
 *****[ SpargatFramework ]*****/
 #ifndef SF_STR_STR_H
 #define SF_STR_STR_H
-#include "../sfbase/sfbase.h"
 #ifdef __cplusplus
 extern "C" {
 #endif

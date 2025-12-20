@@ -23,5 +23,6 @@ last update: xy.xy.xxyy
 #ifndef SF_CORE_H
 #define SF_CORE_H
 #include "sfstr/sfstr.h"
+#include "sfmem/sfmem.h"
 #include "sflog/sflog.h"
 #endif
