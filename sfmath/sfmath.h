@@ -21,7 +21,9 @@ last update: xy.xy.xxyy
 #ifdef __cplusplus
 extern "C" {
 #endif
-extern long double mpi;
+extern real32 mpif;
+extern real64 mpi;
+extern real64_80_128 mpil;
 #ifdef __cplusplus
 }
 #endif

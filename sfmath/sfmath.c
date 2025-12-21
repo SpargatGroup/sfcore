@@ -16,5 +16,8 @@ last update: xy.xy.xxyy
 -----[ CONTRIBUTORS ]-----
     * Comical
 *****[ SpargatFramework ]*****/
+#include "../sfdef/sfdef.h"
 #include "sfmath.h"
-long double mpi = 3.1415926535f;
+real32 mpif = 3.14159265358979323846f;
+real64 mpi = 3.14159265358979323846;
+real64_80_128 mpil = 3.14159265358979323846L;

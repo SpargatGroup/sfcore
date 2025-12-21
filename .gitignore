@@ -1,4 +1,4 @@
-#CMake+VS
+#CMake+VS+CPack
 /x64/
 /*.dir/
 /Debug/
@@ -9,6 +9,10 @@
 /Makefile
 /*.sln
 /*.vcxproj*
+/*.cmake
+/install_manifest.txt
+/*.deb
+/_CPack_Packages/
 #Libs
 /*.a
 /*.lib

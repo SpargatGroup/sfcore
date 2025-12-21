@@ -17,17 +17,17 @@ last update: xy.xy.xxyy
         return (Unit){};
     };
     * unit b = a;
-    * nul; // NULL from C
-    * uint8; // 8-bit unsigned integer
-    * uint16; // 16-bit unsigned integer
-    * uint32; // 32-bit unsigned integer
-    * uint32_64; // 32-bit/64-bit unsigned integer
-    * uint64; // 64-bit unsigned integer
-    * sint8; // 8-bit signed integer
-    * sint16; // 16-bit signed integer
-    * sint32; // 32-bit signed integer
-    * sint32_64; // 32-bit/64-bit signed integer
-    * sint64; // 64-bit signed integer
+    * a = null;
+    * uint8 a;
+    * uint16 a;
+    * uint32 a;
+    * uint32_64 a;
+    * uint64 a;
+    * int8 a;
+    * int16 a;
+    * int32 a;
+    * int32_64 a;
+    * int64 a;
 -----[ CONTRIBUTORS ]-----
     * Comical
 *****[ SpargatFramework ]*****/
@@ -37,19 +37,23 @@ last update: xy.xy.xxyy
 extern "C" {
 #endif
 typedef struct {} unit;
-#define nul ((void*)0)
+#define null ((void*)0) // NULL from C
 //unsigned
-typedef unsigned char uint8;
-typedef unsigned short uint16;
-typedef unsigned int uint32;
-typedef unsigned long uint32_64;
-typedef unsigned long long uint64;
+typedef unsigned char uint8; // 8-bit unsigned integer
+typedef unsigned short uint16; // 16-bit unsigned integer
+typedef unsigned int uint32; // 32-bit unsigned integer
+typedef unsigned long uint32_64; // 32-bit/64-bit unsigned integer & size_t
+typedef unsigned long long uint64; // 64-bit unsigned integer
 //signed
-typedef signed char sint8;
-typedef signed short sint16;
-typedef signed int sint32;
-typedef signed long sint32_64;
-typedef signed long long sint64;
+typedef signed char int8; // 8-bit signed integer
+typedef signed short int16; // 16-bit signed integer
+typedef signed int int32; // 32-bit signed integer
+typedef signed long int32_64; // 32-bit/64-bit signed integer & ptrdiff_t
+typedef signed long long int64; // 64-bit signed integer
+//real
+typedef float real32; // 32-bit floating point
+typedef double real64; // 64-bit floating point
+typedef long double real64_80_128; // 64-bit/80-bit/128-bit floating point
 #ifdef __cplusplus
 }
 #endif

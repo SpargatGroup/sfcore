@@ -13,6 +13,7 @@ last update: xy.xy.xxyy
     * xy.xy.xxyy: Initialization
 -----[ References ]-----
     * sf_memcpy(p, s, len);
+    * sf_free(ptr, len);
     * sf_malloc(len);
 -----[ CONTRIBUTORS ]-----
     * Comical
@@ -20,16 +21,22 @@ last update: xy.xy.xxyy
 #include "../sfdef/sfdef.h"
 #include "sfmem.h"
 void *sf_memcpy(void *dest, const void *src, uint32_64 n) {
-    unsigned char *d = (unsigned char *)dest;
-    const unsigned char *s = (const unsigned char *)src;
-    for (uint32_64 i = 0; i < n; i++) {
-        d[i] = s[i];
-    }
+    uint8 *d = dest;
+    const uint8 *s = src;
+    while (n--) *d++ = *s++;
     return dest;
 }
 static uint32_64 heap_index = 0;
+static uint8 heap[HEAP_SIZE];
+void sf_free(void *ptr, uint32_64 size) {
+    size = (size + 7) & ~7;
+    if ((uint8*)ptr + size == &heap[heap_index]) {
+        heap_index -= size;
+    }
+}
 void *sf_malloc(uint32_64 size) {
-    if (heap_index + size > HEAP_SIZE) return nul;
+    size = (size + 7) & ~7;
+    if (size > HEAP_SIZE - heap_index) return null;
     void *p = &heap[heap_index];
     heap_index += size;
     return p;

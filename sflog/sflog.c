@@ -32,7 +32,7 @@ last update: xy.xy.xxyy
 #endif
 #include "sflog.h"
 static logLevel currentLogLevel = debug;
-logNode *logList = nul;
+logNode *logList = null;
 void set_level(logLevel level) {
     currentLogLevel = level;
 }
@@ -68,7 +68,7 @@ void raw_print(const char* msg) {
         HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
         if (h == INVALID_HANDLE_VALUE) return;
         if (!msg) return;
-        WriteFile(h, msg, (DWORD)sf_strlen(msg), &written, nul);
+        WriteFile(h, msg, (DWORD)sf_strlen(msg), &written, null);
     #elif defined(LINUX) || defined(ANDROID)
         unsigned long len = 0;
         while (msg[len] != '\0') len++;

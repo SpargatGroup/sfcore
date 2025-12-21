@@ -29,7 +29,7 @@ uint32_64 sf_strlen(const char *s) {
     return len;
 }
 char *sf_strdup(const char *s) {
-    if (!s) return nul;
+    if (!s) return null;
     uint32_64 len = sf_strlen(s) + 1;
     char *p = sf_malloc(len);
     if (p) sf_memcpy(p, s, len);
