@@ -25,6 +25,7 @@ last update: xy.xy.xxyy
 #include "sfdef/sfdef.h"
 #include "sfstr/sfstr.h"
 #include "sfmem/sfmem.h"
-#include "sfmath/sfmath.h"
 #include "sflog/sflog.h"
+#include "rcode/rcode.h"
+#include "sfmath/sfmath.h"
 #endif

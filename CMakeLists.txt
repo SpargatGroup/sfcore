@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.13)
 set(DIST "stable")
-set(VERSION "0.0.3-${DIST}")
+set(VERSION "0.0.3")
 set(NAME "SpargatFramework Noble Repo")
 set(OWNER "SpargatGroup")
 set(DESCRIPTION "SpargatGroup's Framework Libraries for SpargatCore and SpargatFramework")
@@ -39,6 +39,11 @@ set(SF_SOURCES_LOG
     ${SF_SOURCES_BASE}
     sflog/sflog.c
 )
+set(SF_SOURCES_RCODE
+    ${SF_SOURCES_BASE}
+    rcode/rdecrypt.c
+    rcode/rencrypt.c
+)
 set(SF_SOURCES_MATH
     ${SF_SOURCES_BASE}
     sfmath/sfmath.c
@@ -46,6 +51,7 @@ set(SF_SOURCES_MATH
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/)
 if(UNIX)
     if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
+        option(LINUX "Enable Linux target" ON)
         add_definitions(-DLINUX)
     elseif(APPLE)
         if(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
@@ -67,14 +73,18 @@ option(SFALL_BUILD_SHARED "Build sfall as a shared library" ON)
 option(SFALL_BUILD_STATIC "Build sfall as a static library" ON)
 option(SFLOG_BUILD_SHARED "Build sflog as a shared library" OFF)
 option(SFLOG_BUILD_STATIC "Build sflog as a static library" OFF)
+option(SFR_BUILD_SHARED "Build sflog as a shared library" OFF)
+option(SFR_BUILD_STATIC "Build sflog as a static library" OFF)
 option(SFMATH_BUILD_SHARED "Build sfmath as a shared library" OFF)
 option(SFMATH_BUILD_STATIC "Build sfmath as a static library" OFF)
 if(SFALL_BUILD_STATIC)
     set(SFLOG_BUILD_STATIC ON CACHE BOOL "Force static build" FORCE)
+    set(SFR_BUILD_STATIC ON CACHE BOOL "Force static build" FORCE)
     set(SFMATH_BUILD_STATIC ON CACHE BOOL "Force static build" FORCE)
 endif()
 if(SFALL_BUILD_SHARED)
     set(SFLOG_BUILD_SHARED ON CACHE BOOL "Force shared build" FORCE)
+    set(SFR_BUILD_SHARED ON CACHE BOOL "Force shared build" FORCE)
     set(SFMATH_BUILD_SHARED ON CACHE BOOL "Force shared build" FORCE)
 endif()
 #shared and static
@@ -88,6 +98,18 @@ if(SFLOG_BUILD_STATIC)
     set(STATIC_NAME_LOG ${PROJECT_NAME}log_static)
     add_library(${STATIC_NAME_LOG} STATIC ${SF_SOURCES_LOG})
     set_target_properties(${STATIC_NAME_LOG} PROPERTIES OUTPUT_NAME ${NAME_LOG})
+endif()
+#shared and static
+set(NAME_R ${PROJECT_NAME}r)
+if(SFR_BUILD_SHARED)
+    set(SHARED_NAME_R ${PROJECT_NAME}r_shared)
+    add_library(${SHARED_NAME_R} SHARED ${SF_SOURCES_RCODE})
+    set_target_properties(${SHARED_NAME_R} PROPERTIES OUTPUT_NAME ${NAME_R})
+endif()
+if(SFR_BUILD_STATIC)
+    set(STATIC_NAME_R ${PROJECT_NAME}r_static)
+    add_library(${STATIC_NAME_R} STATIC ${SF_SOURCES_RCODE})
+    set_target_properties(${STATIC_NAME_R} PROPERTIES OUTPUT_NAME ${NAME_R})
 endif()
 #shared and static
 set(NAME_MATH ${PROJECT_NAME}math)
@@ -128,6 +150,23 @@ if(SFLOG_BUILD_SHARED OR SFLOG_BUILD_STATIC)
         )
     endif()
 endif()
+if(SFR_BUILD_SHARED OR SFR_BUILD_STATIC)
+    install(DIRECTORY rcode/ DESTINATION usr/include/rcode
+        FILES_MATCHING PATTERN "*.h")
+    if(SFR_BUILD_STATIC)
+        install(TARGETS ${STATIC_NAME_R}
+            ARCHIVE DESTINATION usr/lib
+            LIBRARY DESTINATION usr/lib
+            RUNTIME DESTINATION usr/bin
+        )
+    else()
+        install(TARGETS ${SHARED_NAME_R}
+            ARCHIVE DESTINATION usr/lib
+            LIBRARY DESTINATION usr/lib
+            RUNTIME DESTINATION usr/bin
+        )
+    endif()
+endif()
 if(SFMATH_BUILD_SHARED OR SFMATH_BUILD_STATIC)
     install(DIRECTORY sfmath/ DESTINATION usr/include/sfmath
         FILES_MATCHING PATTERN "*.h")
@@ -151,4 +190,6 @@ install(TARGETS sflog_shared sflog_static sfmath_shared sfmath_static
     RUNTIME DESTINATION bin
 )
 #CPack
-include(CPack)
+if(LINUX)
+    include(CPack)
+endif()
