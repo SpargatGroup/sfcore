@@ -49,26 +49,7 @@ set(SF_SOURCES_MATH
     sfmath/sfmath.c
 )
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/)
-if(UNIX)
-    if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
-        option(LINUX "Enable Linux target" ON)
-        add_definitions(-DLINUX)
-    elseif(APPLE)
-        if(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
-            add_definitions(-DOSX)
-        elseif(CMAKE_SYSTEM_NAME STREQUAL "iOS")
-            add_definitions(-DIOS)
-        endif()
-    else()
-        add_definitions(-DANDROID)
-    endif()
-elseif(AMUI) # for this to work, you need amui in the same folder as core and you need to add -DCMAKE_TOOLCHAIN_FILE=/../amui/cmake/amui.cmake when configuring
-    #add_definitions(-DAMUI) # not needed
-elseif(WIN32)
-    add_definitions(-DWINDOWS)
-else()
-    message(FATAL_ERROR "Unsupported platform: ${CMAKE_SYSTEM_NAME}")
-endif()
+include(cmake/system.cmake)
 option(SFALL_BUILD_SHARED "Build sfall as a shared library" ON)
 option(SFALL_BUILD_STATIC "Build sfall as a static library" ON)
 option(SFLOG_BUILD_SHARED "Build sflog as a shared library" OFF)
@@ -189,6 +170,16 @@ install(TARGETS sflog_shared sflog_static sfmath_shared sfmath_static
     LIBRARY DESTINATION lib
     RUNTIME DESTINATION bin
 )
+#AMUI
+if(AMUI)
+    set(PUBLIC_INCLUDE_DIR "${CMAKE_BINARY_DIR}/include")
+    file(GLOB_RECURSE HEADERS "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
+    foreach(HEADER ${HEADERS})
+        file(RELATIVE_PATH REL_PATH "${CMAKE_CURRENT_SOURCE_DIR}" "${HEADER}")
+        set(DEST_PATH "${PUBLIC_INCLUDE_DIR}/${REL_PATH}")
+        configure_file(${HEADER} "${DEST_PATH}" COPYONLY)
+    endforeach()
+endif()
 #CPack
 if(LINUX)
     include(CPack)
