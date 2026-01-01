@@ -113,6 +113,9 @@ install(DIRECTORY sfstr/ DESTINATION usr/include/sfstr
         FILES_MATCHING PATTERN "*.h")
 if(SFALL_BUILD_SHARED OR SFALL_BUILD_STATIC)
     install(FILES sfcore.h DESTINATION usr/include)
+    if(SFALL_BUILD_STATIC)
+    	add_library(sf INTERFACE)
+    endif()
 endif()
 if(SFLOG_BUILD_SHARED OR SFLOG_BUILD_STATIC)
     install(DIRECTORY sflog/ DESTINATION usr/include/sflog
@@ -123,6 +126,9 @@ if(SFLOG_BUILD_SHARED OR SFLOG_BUILD_STATIC)
             LIBRARY DESTINATION usr/lib
             RUNTIME DESTINATION usr/bin
         )
+        if(SFALL_BUILD_STATIC)
+            target_link_libraries(sf INTERFACE ${STATIC_NAME_LOG})
+        endif()
     else()
         install(TARGETS ${SHARED_NAME_LOG}
             ARCHIVE DESTINATION usr/lib
@@ -140,6 +146,9 @@ if(SFR_BUILD_SHARED OR SFR_BUILD_STATIC)
             LIBRARY DESTINATION usr/lib
             RUNTIME DESTINATION usr/bin
         )
+        if(SFALL_BUILD_STATIC)
+            target_link_libraries(sf INTERFACE ${STATIC_NAME_R})
+        endif()
     else()
         install(TARGETS ${SHARED_NAME_R}
             ARCHIVE DESTINATION usr/lib
@@ -157,6 +166,9 @@ if(SFMATH_BUILD_SHARED OR SFMATH_BUILD_STATIC)
             LIBRARY DESTINATION usr/lib
             RUNTIME DESTINATION usr/bin
         )
+        if(SFALL_BUILD_STATIC)
+            target_link_libraries(sf INTERFACE ${STATIC_NAME_MATH})
+        endif()
     else()
         install(TARGETS ${SHARED_NAME_MATH}
             ARCHIVE DESTINATION usr/lib
@@ -164,6 +176,18 @@ if(SFMATH_BUILD_SHARED OR SFMATH_BUILD_STATIC)
             RUNTIME DESTINATION usr/bin
         )
     endif()
+endif()
+if(SFALL_BUILD_STATIC)
+    target_include_directories(sf INTERFACE
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/sfdef>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/sfmem>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/sfstr>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/sflog>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/sfmath>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/rcode>
+        $<INSTALL_INTERFACE:usr/include>
+    )
 endif()
 install(TARGETS sflog_shared sflog_static sfmath_shared sfmath_static
     ARCHIVE DESTINATION lib
