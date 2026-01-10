@@ -48,6 +48,7 @@ extern logNode *logList;
 void set_level(logLevel level);
 const char* level_to_string(logLevel level);
 void log_add(logNode **head, logLevel level, const char* tag, const char* msg);
+void sflog_clear();
 #ifdef ANDROID
     int android_log_level(logLevel level);
 #endif

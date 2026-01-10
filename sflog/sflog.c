@@ -94,6 +94,23 @@ void log_add(logNode **head, logLevel level, const char* tag, const char* msg) {
     n->next = *head;
     *head = n;
 }
+void sflog_clear() {
+    logNode *curr = logList;
+    while (curr != null) {
+        logNode *temp = (logNode*)curr->next;
+        if (curr->tag) {
+            uint32_64 tagLen = (uint32_64)sf_strlen(curr->tag) + 1;
+            sf_free((void*)curr->tag, tagLen);
+        }
+        if (curr->msg) {
+            uint32_64 msgLen = (uint32_64)sf_strlen(curr->msg) + 1;
+            sf_free((void*)curr->msg, msgLen);
+        }
+        sf_free(curr, sizeof(logNode));
+        curr = temp;
+    }
+    logList = null;
+}
 void sflog(logLevel level, const char* tag, const char* msg) {
     if (level < currentLogLevel)
         return;

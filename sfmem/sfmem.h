@@ -28,11 +28,28 @@ last update: xy.xy.xxyy
 #ifdef __cplusplus
 #include <thread>
 #include <vector>
-std::vector<std::thread> threads;
-template<typename Func>
-void launch(Func&& f) {
-    threads.emplace_back(std::forward<Func>(f));
-}
+#include <utility>
+class ThreadLauncher {
+    std::vector<std::thread> threads;
+public:
+    template<typename Func>
+    void launch(Func&& f) {
+        threads.emplace_back(std::forward<Func>(f));
+    }
+
+    ~ThreadLauncher() {
+        for (auto& t : threads) {
+            if (t.joinable()) t.join();
+        }
+    }
+
+    void join_all() {
+        for (auto& t : threads) {
+            if (t.joinable()) t.join();
+        }
+        threads.clear();
+    }
+};
 extern "C" {
 #endif
 void *sf_memcpy(void *dest, const void *src, uint32_64 n);
