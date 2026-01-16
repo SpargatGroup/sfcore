@@ -20,12 +20,12 @@ last update: xy.xy.xxyy
 -----[ CONTRIBUTORS ]-----
     * Comical
 *****[ SpargatFramework ]*****/
-#ifndef SF_CORE_H
-#define SF_CORE_H
+#ifndef SF_SFCORE_H
+#define SF_SFCORE_H
 #include "sfdef/sfdef.h"
 #include "sfstr/sfstr.h"
 #include "sfmem/sfmem.h"
-#include "sflog/sflog.h"
+#include "sfio.h"
 #include "rcode/rcode.h"
 #include "sfmath/sfmath.h"
 #endif

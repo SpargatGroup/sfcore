@@ -23,14 +23,15 @@ last update: xy.xy.xxyy
 -----[ CONTRIBUTORS ]-----
     * Comical
 *****[ SpargatFramework ]*****/
-#include "../sfmem/sfmem.h"
-#include "../sfstr/sfstr.h"
+#include "sfmem/sfmem.h"
+#include "sfstr/sfstr.h"
 #ifdef ANDROID
     #include <android/log.h>
 #elif defined(WINDOWS)
     #include <windows.h>
 #endif
-#include "sflog.h"
+#include "sfio.h"
+#include "sfarg.h"
 static logLevel currentLogLevel = debug;
 logNode *logList = null;
 void set_level(logLevel level) {

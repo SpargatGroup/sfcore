@@ -16,8 +16,6 @@ last update: xy.xy.xxyy
         sflog(debug, "Text");
         return (Unit){};
     };
-    * unit b = a;
-    * a = null;
     * uint8 a;
     * uint16 a;
     * uint32 a;
@@ -36,7 +34,6 @@ last update: xy.xy.xxyy
 #ifdef __cplusplus
 extern "C" {
 #endif
-typedef struct {} unit;
 #define null ((void*)0) // NULL from C
 //unsigned
 typedef unsigned char uint8; // 8-bit unsigned integer

@@ -2,7 +2,7 @@
 -----[ BASIC ]-----
 author: Comical
 company: Spargat
-file: sflog/sflog.h
+file: sfio.h
 language: Header
 description:
     Log function of SpargatFramework
@@ -19,16 +19,20 @@ last update: xy.xy.xxyy
     * sflog(warn, "Text");
     * sflog(warning, "Text");
     * sflog(error, "Text");
-    * sflag(critical, "Text");
+    * sflog(critical, "Text");
+    * sfswap(&a, &b);
+    * sf::swap(&a, &b);
+-----[ CONTRIBUTORS ]-----
     * Comical
 *****[ SpargatFramework ]*****/
-#ifndef SF_LOG_LOG_H
-#define SF_LOG_LOG_H
-#include "../sfdef/sfdef.h"
-#include "../sfstr/sfstr.h"
+#ifndef SF_SFIO_H
+#define SF_SFIO_H
 #ifdef __cplusplus
 extern "C" {
 #endif
+#include "sfdef/sfdef.h"
+#include "sfstr/sfstr.h"
+#include "sfarg.h"
 typedef enum {
     debug = 0,
     info,
@@ -54,7 +58,13 @@ void sflog_clear();
 #endif
 void raw_print(const char* msg);
 void sflog(logLevel level, const char* tag, const char* msg);
+void sfswap(int *a, int *b);
 #ifdef __cplusplus
+}
+namespace sf {
+    inline void swap(int *a, int *b) {
+        ::sfswap(a, b);
+    }
 }
 #endif
 #endif

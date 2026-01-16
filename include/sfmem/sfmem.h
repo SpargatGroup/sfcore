@@ -24,7 +24,6 @@ last update: xy.xy.xxyy
 *****[ SpargatFramework ]*****/
 #ifndef SF_MEM_MEM_H
 #define SF_MEM_MEM_H
-#include "../sfdef/sfdef.h"
 #ifdef __cplusplus
 #include <thread>
 #include <vector>
@@ -52,6 +51,7 @@ public:
 };
 extern "C" {
 #endif
+#include "../sfdef/sfdef.h"
 void *sf_memcpy(void *dest, const void *src, uint32_64 n);
 #define HEAP_SIZE 1024*1024
 void sf_free(void *ptr, uint32_64 size);

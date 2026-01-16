@@ -2,28 +2,29 @@
 -----[ BASIC ]-----
 author: Comical
 company: Spargat
-file: sfdef/sfdef.h
+file: sfstr/sfstr.h
 language: H
 description:
-    Math function of SpargatFramework
+    String function of SpargatFramework
 -----[ DATES ]-----
 created on: xy.xy.xxyy
 last update: xy.xy.xxyy
 -----[ CHANGES ]-----
     * xy.xy.xxyy: Initialization
 -----[ References ]-----
-    * mpi
+    * sf_strlen(s);
+    * sf_strdup(char);
 -----[ CONTRIBUTORS ]-----
     * Comical
 *****[ SpargatFramework ]*****/
-#ifndef SF_MATH_MATH_H
-#define SF_MATH_MATH_H
+#ifndef SF_STR_STR_H
+#define SF_STR_STR_H
 #ifdef __cplusplus
 extern "C" {
 #endif
-extern real32 mpif;
-extern real64 mpi;
-extern real64_80_128 mpil;
+#include "../sfdef/sfdef.h"
+uint32_64 sf_strlen(const char *s);
+char *sf_strdup(const char *s);
 #ifdef __cplusplus
 }
 #endif
