@@ -17,5 +17,11 @@
 *.so
 *.dll
 *.deb
+/target/
+/rust/Cargo.lock
+/_deps/
+/.git/
+/cargo/
+/corrosion/
 
 /openamui/

@@ -12,16 +12,13 @@ last update: xy.xy.xxyy
 -----[ CHANGES ]-----
     * xy.xy.xxyy: Initialization
 -----[ References ]-----
-    * log(LOG_debug, "Text");
-    * log(LOG_ERROR, "Text");
-    * log(LOG_WARNING, "Text");
-    * log(LOG_SUCCESS, "Text");
-    * log(LOG_INFO, "Text");
+    * empty
 -----[ CONTRIBUTORS ]-----
     * Comical
 *****[ SpargatFramework ]*****/
 #ifndef SF_SFCORE_H
 #define SF_SFCORE_H
+#include "sfarg.h"
 #include "sfdef/sfdef.h"
 #include "sfstr/sfstr.h"
 #include "sfmem/sfmem.h"

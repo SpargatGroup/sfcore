@@ -36,6 +36,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 include(cmake/system.cmake)
 option(SF_BUILD_SHARED "Build sfcore as a shared library" OFF)
 option(SF_BUILD_STATIC "Build sfcore as a static library" ON)
+option(SF_BUILD_RUST "Build sfcore with rust support" OFF)
 #shared and static
 set(SFCORE_NAME ${PROJECT_NAME}core)
 add_library(${PROJECT_NAME} INTERFACE)
@@ -48,6 +49,22 @@ if(SF_BUILD_STATIC)
     set(SFCORE_NAME_STATIC ${SFCORE_NAME}_static)
     add_library(${SFCORE_NAME_STATIC} STATIC ${SF_SOURCES_BASE})
     set_target_properties(${SFCORE_NAME_STATIC} PROPERTIES OUTPUT_NAME ${SFCORE_NAME})
+endif()
+if(SF_BUILD_RUST)
+    include(FetchContent)
+    FetchContent_Declare(
+        Corrosion
+        GIT_REPOSITORY https://github.com/corrosion-rs/corrosion.git
+        GIT_TAG v0.5 
+    )
+    FetchContent_MakeAvailable(Corrosion)
+    corrosion_import_crate(MANIFEST_PATH rust/Cargo.toml)
+    if(SF_BUILD_SHARED)
+        target_link_libraries(${SFCORE_NAME_SHARED} PUBLIC sfrust)
+    endif()
+    if(SF_BUILD_STATIC)
+        target_link_libraries(${SFCORE_NAME_STATIC} PUBLIC sfrust)
+    endif()
 endif()
 #install
 install(DIRECTORY include/ DESTINATION usr/include

@@ -17,8 +17,8 @@ last update: xy.xy.xxyy
     * Comical
 *****[ SpargatFramework ]*****/
 #include "sfdef/sfdef.h"
-#include "rcode/rcode.h"
-void decrypt(const char* input, char* output, int key) {
+#include "sfrcode.h"
+void sfdecrypt(const char* input, char* output, int key) {
     int i;
     for (i = 1; input[i] != '\0'; i++) {
         uint8 c = input[i];
