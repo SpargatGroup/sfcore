@@ -27,6 +27,7 @@ last update: xy.xy.xxyy
 *****[ SpargatFramework ]*****/
 #ifndef SF_SFARG_H
 #define SF_SFARG_H
+#ifndef MSVC
 #define sfva_start(v,arg) __builtin_va_start(v,arg)
 #define sfva_end(v)	__builtin_va_end(v)
 #define sfva_arg(v,t)	__builtin_va_arg(v,t)
@@ -40,5 +41,6 @@ namespace sf {
     #define va_copy(d,s)	sfva_copy(d,s)
     typedef sfva_list va_list;
 }
+#endif
 #endif
 #endif

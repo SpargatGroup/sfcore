@@ -31,7 +31,9 @@ last update: xy.xy.xxyy
     #include <windows.h>
 #endif
 #include "sfio.h"
-#include "sfarg.h"
+#define LOG_HEAP_SIZE 4096
+static uint8 logHeap[LOG_HEAP_SIZE];
+static uint32_64 logHeapIndex = 0;
 static logLevel currentLogLevel = debug;
 logNode *logList = null;
 void set_level(logLevel level) {
@@ -69,11 +71,11 @@ void raw_print(const char* msg) {
         HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
         if (h == INVALID_HANDLE_VALUE) return;
         if (!msg) return;
-        WriteFile(h, msg, (DWORD)sf_strlen(msg), &written, null);
+        WriteFile(h, msg, (DWORD)sfstrlen(msg), &written, null);
     #elif defined(LINUX) || defined(ANDROID)
         unsigned long len = 0;
         while (msg[len] != '\0') len++;
-        asm volatile (
+        __asm__ volatile (
             "mov $1, %%rax\n\t"
             "mov $1, %%rdi\n\t"
             "mov %0, %%rsi\n\t"
@@ -87,34 +89,29 @@ void raw_print(const char* msg) {
         // in work
     #endif
 }
-void log_add(logNode **head, logLevel level, const char* tag, const char* msg) {
-    logNode *n = sf_malloc(sizeof(logNode));
+void log_add(logNode **head, logLevel level, const char *tag, const char *msg) {
+    if (!head) return;
+    uint32_64 tagLen = sfstrlen(tag) + 1;
+    uint32_64 msgLen = sfstrlen(msg) + 1;
+    uint32_64 totalSize = sizeof(logNode) + tagLen + msgLen;
+    if (logHeapIndex + totalSize > LOG_HEAP_SIZE) return;
+    uint8 *block = &logHeap[logHeapIndex];
+    logHeapIndex += totalSize;
+    logNode *n = (logNode *)block;
+    n->tag = (char *)(block + sizeof(logNode));
+    sfstrcopy(n->tag, tag);
+    n->msg = n->tag + tagLen;
+    sfstrcopy(n->msg, msg);
     n->level = level;
-    n->tag = sf_strdup(tag);
-    n->msg = sf_strdup(msg);
     n->next = *head;
     *head = n;
 }
 void sflog_clear() {
-    logNode *curr = logList;
-    while (curr != null) {
-        logNode *temp = (logNode*)curr->next;
-        if (curr->tag) {
-            uint32_64 tagLen = (uint32_64)sf_strlen(curr->tag) + 1;
-            sf_free((void*)curr->tag, tagLen);
-        }
-        if (curr->msg) {
-            uint32_64 msgLen = (uint32_64)sf_strlen(curr->msg) + 1;
-            sf_free((void*)curr->msg, msgLen);
-        }
-        sf_free(curr, sizeof(logNode));
-        curr = temp;
-    }
     logList = null;
+    logHeapIndex = 0;
 }
 void sflog(logLevel level, const char* tag, const char* msg) {
-    if (level < currentLogLevel)
-        return;
+    if (level < currentLogLevel) return;
     #ifdef ANDROID
         __android_log_write(android_log_level(level), tag, msg);
     #else

@@ -32,7 +32,6 @@ extern "C" {
 #endif
 #include "sfdef/sfdef.h"
 #include "sfstr/sfstr.h"
-#include "sfarg.h"
 typedef enum {
     debug = 0,
     info,

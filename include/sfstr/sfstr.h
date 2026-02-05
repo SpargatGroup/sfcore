@@ -12,7 +12,7 @@ last update: xy.xy.xxyy
 -----[ CHANGES ]-----
     * xy.xy.xxyy: Initialization
 -----[ References ]-----
-    * sf_strlen(s);
+    * sfstrlen(s);
     * sf_strdup(char);
 -----[ CONTRIBUTORS ]-----
     * Comical
@@ -23,8 +23,8 @@ last update: xy.xy.xxyy
 extern "C" {
 #endif
 #include "../sfdef/sfdef.h"
-uint32_64 sf_strlen(const char *s);
-char *sf_strdup(const char *s);
+uint32_64 sfstrlen(const char *s);
+void sfstrcopy(char *dest, const char *src);
 #ifdef __cplusplus
 }
 #endif

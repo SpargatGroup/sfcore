@@ -26,18 +26,3 @@ void *sf_memcpy(void *dest, const void *src, uint32_64 n) {
     while (n--) *d++ = *s++;
     return dest;
 }
-static uint32_64 heap_index = 0;
-static uint8 heap[HEAP_SIZE];
-void sf_free(void *ptr, uint32_64 size) {
-    size = (size + 7) & ~7;
-    if ((uint8*)ptr + size == &heap[heap_index]) {
-        heap_index -= size;
-    }
-}
-void *sf_malloc(uint32_64 size) {
-    size = (size + 7) & ~7;
-    if (size > HEAP_SIZE - heap_index) return null;
-    void *p = &heap[heap_index];
-    heap_index += size;
-    return p;
-}

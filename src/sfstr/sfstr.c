@@ -12,7 +12,7 @@ last update: xy.xy.xxyy
 -----[ CHANGES ]-----
     * xy.xy.xxyy: Initialization
 -----[ References ]-----
-    * sf_strlen(s);
+    * sfstrlen(s);
     * sf_strdup(char);
 -----[ CONTRIBUTORS ]-----
     * Comical
@@ -20,7 +20,7 @@ last update: xy.xy.xxyy
 #include "sfmem/sfmem.h"
 #include "sfdef/sfdef.h"
 #include "sfstr/sfstr.h"
-uint32_64 sf_strlen(const char *s) {
+uint32_64 sfstrlen(const char *s) {
     if (!s) return 0;
     uint32_64 len = 0;
     while (s[len] != '\0') {
@@ -28,10 +28,9 @@ uint32_64 sf_strlen(const char *s) {
     }
     return len;
 }
-char *sf_strdup(const char *s) {
-    if (!s) return null;
-    uint32_64 len = sf_strlen(s) + 1;
-    char *p = sf_malloc(len);
-    if (p) sf_memcpy(p, s, len);
-    return p;
+void sfstrcopy(char *dest, const char *src) {
+    while (*src) {
+        *dest++ = *src++;
+    }
+    *dest = '\0';
 }

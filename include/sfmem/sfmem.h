@@ -53,9 +53,6 @@ extern "C" {
 #endif
 #include "../sfdef/sfdef.h"
 void *sf_memcpy(void *dest, const void *src, uint32_64 n);
-#define HEAP_SIZE 1024*1024
-void sf_free(void *ptr, uint32_64 size);
-void *sf_malloc(uint32_64 size);
 #ifdef __cplusplus
 }
 #endif
