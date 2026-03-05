@@ -30,7 +30,7 @@ last update: xy.xy.xxyy
 #ifdef __cplusplus
 extern "C" {
 #endif
-#include "sfdef/sfdef.h"
+#include "types/int.h"
 #include "sfstr/sfstr.h"
 typedef enum {
     debug = 0,
@@ -57,13 +57,7 @@ void sflog_clear();
 #endif
 void raw_print(const char* msg);
 void sflog(logLevel level, const char* tag, const char* msg);
-void sfswap(int *a, int *b);
 #ifdef __cplusplus
-}
-namespace sf {
-    inline void swap(int *a, int *b) {
-        ::sfswap(a, b);
-    }
 }
 #endif
 #endif

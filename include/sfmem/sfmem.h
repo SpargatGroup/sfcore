@@ -51,7 +51,7 @@ public:
 };
 extern "C" {
 #endif
-#include "../sfdef/sfdef.h"
+#include "../types/int.h"
 void *sf_memcpy(void *dest, const void *src, uint32_64 n);
 #ifdef __cplusplus
 }

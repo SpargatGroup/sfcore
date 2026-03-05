@@ -23,7 +23,7 @@ last update: xy.xy.xxyy
 -----[ CONTRIBUTORS ]-----
     * Comical
 *****[ SpargatFramework ]*****/
-#include "sfio.h"
+#include "sfutility.h"
 void sfswap(int *a, int *b) {
     int aux = *a;
     *a = *b;

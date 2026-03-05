@@ -18,7 +18,7 @@ last update: xy.xy.xxyy
     * Comical
 *****[ SpargatFramework ]*****/
 #include "sfmem/sfmem.h"
-#include "sfdef/sfdef.h"
+#include "types/int.h"
 #include "sfstr/sfstr.h"
 uint32_64 sfstrlen(const char *s) {
     if (!s) return 0;

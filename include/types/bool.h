@@ -5,27 +5,29 @@ company: Spargat
 file: types/int.h
 language: H
 description:
-    Math function of SpargatFramework
+    Definitions function of SpargatFramework
 -----[ DATES ]-----
 created on: xy.xy.xxyy
 last update: xy.xy.xxyy
 -----[ CHANGES ]-----
     * xy.xy.xxyy: Initialization
 -----[ References ]-----
-    * mpi
+    * bool a;
 -----[ CONTRIBUTORS ]-----
     * Comical
 *****[ SpargatFramework ]*****/
-#ifndef SF_MATH_MATH_H
-#define SF_MATH_MATH_H
+#ifndef SF_TYPES_INT_H
+#define SF_TYPES_INT_H
 #ifdef __cplusplus
 extern "C" {
 #endif
-#include "../types/real.h"
-extern sfreal32 mpif;
-extern sfreal64 mpi;
-extern sfreal64_80_128 mpil;
+typedef unsigned char sfbool;
+#define true 1
+#define false 0
 #ifdef __cplusplus
+}
+namespace sf {
+    typedef sfbool bool
 }
 #endif
 #endif

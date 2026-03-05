@@ -2,30 +2,31 @@
 -----[ BASIC ]-----
 author: Comical
 company: Spargat
-file: types/int.h
-language: H
+file: sfutility.h
+language: Header
 description:
-    Math function of SpargatFramework
+    Utility functions of SpargatFramework
 -----[ DATES ]-----
 created on: xy.xy.xxyy
 last update: xy.xy.xxyy
 -----[ CHANGES ]-----
     * xy.xy.xxyy: Initialization
 -----[ References ]-----
-    * mpi
+    * sfswap(&a, &b);
+    * sf::swap(&a, &b);
 -----[ CONTRIBUTORS ]-----
     * Comical
 *****[ SpargatFramework ]*****/
-#ifndef SF_MATH_MATH_H
-#define SF_MATH_MATH_H
+#ifndef SF_UTILITY_H
+#define SF_UTILITY_H
 #ifdef __cplusplus
 extern "C" {
 #endif
-#include "../types/real.h"
-extern sfreal32 mpif;
-extern sfreal64 mpi;
-extern sfreal64_80_128 mpil;
+void sfswap(int *a, int *b);
 #ifdef __cplusplus
+}
+namespace sf {
+    using swap = sfswap;
 }
 #endif
 #endif

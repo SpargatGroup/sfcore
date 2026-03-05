@@ -16,7 +16,7 @@ last update: xy.xy.xxyy
 -----[ CONTRIBUTORS ]-----
     * Comical
 *****[ SpargatFramework ]*****/
-#include "sfdef/sfdef.h"
+#include "types/int.h"
 #include "sfrcode.h"
 void sfencrypt(const char* input, char* output, int key) {
     int i;

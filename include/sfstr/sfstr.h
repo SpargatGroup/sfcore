@@ -22,7 +22,7 @@ last update: xy.xy.xxyy
 #ifdef __cplusplus
 extern "C" {
 #endif
-#include "../sfdef/sfdef.h"
+#include "../types/int.h"
 uint32_64 sfstrlen(const char *s);
 void sfstrcopy(char *dest, const char *src);
 #ifdef __cplusplus

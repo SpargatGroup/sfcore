@@ -2,7 +2,7 @@
 -----[ BASIC ]-----
 author: Comical
 company: Spargat
-file: sfdef/sfdef.h
+file: types/int.h
 language: H
 description:
     Math function of SpargatFramework
@@ -16,8 +16,8 @@ last update: xy.xy.xxyy
 -----[ CONTRIBUTORS ]-----
     * Comical
 *****[ SpargatFramework ]*****/
-#include "sfdef/sfdef.h"
+#include "types/real.h"
 #include "sfmath/sfmath.h"
-real32 mpif = 3.14159265358979323846f;
-real64 mpi = 3.14159265358979323846;
-real64_80_128 mpil = 3.14159265358979323846L;
+sfreal32 mpif = 3.14159265358979323846f;
+sfreal64 mpi = 3.14159265358979323846;
+sfreal64_80_128 mpil = 3.14159265358979323846L;

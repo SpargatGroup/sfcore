@@ -19,7 +19,7 @@ last update: xy.xy.xxyy
 #ifndef SF_SFCORE_H
 #define SF_SFCORE_H
 #include "sfarg.h"
-#include "sfdef/sfdef.h"
+#include "types/int.h"
 #include "sfstr/sfstr.h"
 #include "sfmem/sfmem.h"
 #include "sfio.h"

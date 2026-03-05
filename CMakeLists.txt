@@ -21,22 +21,18 @@ set(CPACK_DEBIAN_PACKAGE_SECTION "libs")
 set(CPACK_DEBIAN_PACKAGE_PRIORITY "optional")
 set(CPACK_DEBIAN_ARCHITECTURE ${CMAKE_SYSTEM_PROCESSOR})
 set(CPACK_DEBIAN_PACKAGE_DEPENDS "")
-#arch package - check it later
-add_custom_target(
-    build_arch_pkg
-    COMMAND mkdir -p ${CMAKE_BINARY_DIR}/pacman/pkg/${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}/usr/include
-    COMMAND cp -r ${CMAKE_SOURCE_DIR}/include/* ${CMAKE_BINARY_DIR}/pacman/pkg/${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}/usr/include/
-    COMMAND cp ${CMAKE_BINARY_DIR}/lib/libsf*.so ${CMAKE_BINARY_DIR}/pacman/pkg/${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}/usr/lib/
-    COMMAND cd ${CMAKE_BINARY_DIR}/pacman && makepkg -s
-    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
-)
 #sources
 file(GLOB_RECURSE SF_SOURCES_BASE "src/*.c")
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 include(cmake/system.cmake)
 option(SF_BUILD_SHARED "Build sfcore as a shared library" OFF)
 option(SF_BUILD_STATIC "Build sfcore as a static library" ON)
-option(SF_BUILD_RUST "Build sfcore with rust support" OFF)
+option(SF_BUILD++ "Build sfcore with C++ support" OFF)
+option(SF_BUILD_RUST "Build sfcore with Rust support" OFF)
+file(GLOB_RECURSE SF_SOURCES++ "src/*.cc")
+if(SF_BUILD++)
+    list(APPEND SF_SOURCES_BASE ${SF_SOURCES++})
+endif()
 #shared and static
 set(SFCORE_NAME ${PROJECT_NAME}core)
 add_library(${PROJECT_NAME} INTERFACE)
@@ -49,6 +45,15 @@ if(SF_BUILD_STATIC)
     set(SFCORE_NAME_STATIC ${SFCORE_NAME}_static)
     add_library(${SFCORE_NAME_STATIC} STATIC ${SF_SOURCES_BASE})
     set_target_properties(${SFCORE_NAME_STATIC} PROPERTIES OUTPUT_NAME ${SFCORE_NAME})
+endif()
+if(SF_BUILD++)
+    target_compile_features(${PROJECT_NAME} INTERFACE cxx_std_98)
+    if(SF_BUILD_SHARED)
+        target_compile_features(${SFCORE_NAME_SHARED} PUBLIC cxx_std_98)
+    endif()
+    if(SF_BUILD_STATIC)
+        target_compile_features(${SFCORE_NAME_STATIC} PUBLIC cxx_std_98)
+    endif()
 endif()
 if(SF_BUILD_RUST)
     include(FetchContent)
@@ -98,16 +103,6 @@ install(TARGETS ${SFCORE_INSTALL_LIB}
     LIBRARY DESTINATION lib
     RUNTIME DESTINATION bin
 )
-#AMUI
-if(AMUI)
-    set(PUBLIC_INCLUDE_DIR "${CMAKE_BINARY_DIR}/include")
-    file(GLOB_RECURSE HEADERS "${CMAKE_CURRENT_SOURCE_DIR}/include/*.h")
-    foreach(HEADER ${HEADERS})
-        file(RELATIVE_PATH REL_PATH "${CMAKE_CURRENT_SOURCE_DIR}" "${HEADER}")
-        set(DEST_PATH "${PUBLIC_INCLUDE_DIR}/${REL_PATH}")
-        configure_file(${HEADER} "${DEST_PATH}" COPYONLY)
-    endforeach()
-endif()
 #CPack
 if(LINUX)
     include(CPack)

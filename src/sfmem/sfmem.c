@@ -18,7 +18,7 @@ last update: xy.xy.xxyy
 -----[ CONTRIBUTORS ]-----
     * Comical
 *****[ SpargatFramework ]*****/
-#include "sfdef/sfdef.h"
+#include "types/int.h"
 #include "sfmem/sfmem.h"
 void *sf_memcpy(void *dest, const void *src, uint32_64 n) {
     uint8 *d = dest;
