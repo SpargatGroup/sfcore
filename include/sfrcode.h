@@ -29,12 +29,8 @@ void sfdecrypt(const char* input, char* output, int key);
 #ifdef __cplusplus
 }
 namespace sf {
-    inline void encrypt(const char* input, char* output, int key) {
-        ::sfencrypt(input, output, key);
-    }
-    inline void decrypt(const char* input, char* output, int key) {
-        ::sfdecrypt(input, output, key);
-    }
+    using encrypt = sfencrypt;
+    using decrypt = sfdecrypt;
 }
 #endif
 #endif

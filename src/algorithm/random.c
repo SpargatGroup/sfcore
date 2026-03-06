@@ -2,7 +2,7 @@
 -----[ BASIC ]-----
 author: Comical
 company: Spargat
-file: rcode/rencrypt.c
+file: algorithm/random.c
 language: C
 description:
     Native initialization for Android Application
@@ -12,19 +12,18 @@ last update: xy.xy.xxyy
 -----[ CHANGES ]-----
     * xy.xy.xxyy: Initialization
 -----[ References ]-----
-    * encrypt(originalText, "output", 11)
+    * decrypt("output", "originalText", 11)
 -----[ CONTRIBUTORS ]-----
     * Comical
 *****[ SpargatFramework ]*****/
-#include "types/int.h"
-#include "sfrcode.h"
-void sfencrypt(const char* input, char* output, int key) {
-    int i;
-    output[0] = 57;
-    for (i = 0; input[i] != '\0'; i++) {
-        uint8 c = input[i];
-        c = (c + (i * key) + key) % 256;
-        output[i + 1] = c;
-    }
-    output[i + 1] = '\0';
+uint32 xorshift32(uint32 *state) {
+    uint32 x = *state;
+    x ^= x << 13;
+    x ^= x >> 17;
+    x ^= x << 5;
+    *state = x;
+    return x;
+}
+uint32 random_limit(uint32 *state, uint32 max) {
+    return xorshift32(state) % max;
 }

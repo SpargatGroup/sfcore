@@ -18,11 +18,10 @@ last update: xy.xy.xxyy
 *****[ SpargatFramework ]*****/
 #ifndef SF_SFCORE_H
 #define SF_SFCORE_H
-#include "sfarg.h"
 #include "types/int.h"
 #include "sfstr/sfstr.h"
 #include "sfmem/sfmem.h"
 #include "sfio.h"
 #include "rcode/rcode.h"
-#include "sfmath/sfmath.h"
+#include "math/sfmath.h"
 #endif

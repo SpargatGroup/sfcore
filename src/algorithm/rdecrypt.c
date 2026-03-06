@@ -19,11 +19,13 @@ last update: xy.xy.xxyy
 #include "types/int.h"
 #include "sfrcode.h"
 void sfdecrypt(const char* input, char* output, int key) {
+    uint8 current_key_offset = (uint8)key;
+    uint8 k = (uint8)key;
     int i;
-    for (i = 1; input[i] != '\0'; i++) {
-        uint8 c = input[i];
-        c = (c - (i - 1) * key - key + 256) % 256;
-        output[i - 1] = c;
+    while (input[i] != '\0') {
+        output[i - 1] = (uint8)input[i] - current_key_offset;
+        current_key_offset += k;
+        i++;
     }
     output[i - 1] = '\0';
 }
